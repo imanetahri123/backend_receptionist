@@ -55,15 +55,16 @@ class RendezVousController extends Controller
     public function update(Request $request, RendezVous $rendezVous)
     {
         $validated = $request->validate([
-            'nom_patient' => 'sometimes|string|max:255',
+            'nom_patient' => 'sometimes|required|string|max:255',
             'prenom_patient' => 'sometimes|string|max:255',
-            'date_heure' => 'sometimes|date_format:Y-m-d H:i:s',
+            'date_heure' => 'sometimes|required|date_format:Y-m-d H:i:s',
             'type' => 'sometimes|in:Consultation,Suivi,Autre',
             'statut' => 'sometimes|in:À Venir,En Cours,Terminé,Annulé',
             'rappel' => 'sometimes|string',
         ]);
 
-        $rendezVous->update($validated);
+        $rendezVous->fill($validated);
+        $rendezVous->save();
 
         return response()->json([
             'message' => 'Rendez-vous mis à jour',

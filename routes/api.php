@@ -23,4 +23,4 @@ Route::get('/profile/{email}', function ($email): JsonResponse {
 
 Route::apiResource('appointments', AppointmentController::class);
 Route::apiResource('patients', PatientController::class);
-Route::apiResource('/rendez_vous', \App\Http\Controllers\RendezVousController::class);
+Route::apiResource('rendez_vous', RendezVousController::class);
