@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\RendezVousController;
 
-Route::get('/profile/{email}', function ($email): JsonResponse {
+Route::get('/profile/*{email}*', function ($email): JsonResponse {
     return response()->json([
         'name' => 'Omar Bennani',
         'email' => $email,
@@ -23,4 +23,10 @@ Route::get('/profile/{email}', function ($email): JsonResponse {
 
 Route::apiResource('appointments', AppointmentController::class);
 Route::apiResource('patients', PatientController::class);
-Route::apiResource('rendez_vous', RendezVousController::class);
+
+// Routes explicites pour rendez_vous pour éviter les conflits
+Route::get('rendez_vous', [RendezVousController::class, 'index']);
+Route::post('rendez_vous', [RendezVousController::class, 'store']);
+Route::get('rendez_vous/{id}', [RendezVousController::class, 'show']);
+Route::put('rendez_vous/{id}', [RendezVousController::class, 'update']);
+Route::delete('rendez_vous/{id}', [RendezVousController::class, 'destroy']);
