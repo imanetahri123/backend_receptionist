@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('receptionists', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name');
+            $table->string('name'); // <-- IMPORTANT : 'name' et pas 'full_name'
             $table->string('email')->unique();
             $table->string('phone');
             $table->string('role')->default('Réceptionniste');
             $table->string('password');
-            $table->timestamps(); // created_at & updated_at
+            $table->timestamps();
+            $table->string('photo')->nullable();
         });
     }
 
