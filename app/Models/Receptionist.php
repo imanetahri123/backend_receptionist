@@ -3,17 +3,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 
-class Receptionist extends Model
+class Receptionist extends Authenticatable
 {
     use HasFactory;
 
-    protected $table = 'receptionists'; // Nom de la table dans phpMyAdmin
-    protected $fillable = ['name', 'email', 'phone', 'role', 'password'];
+    protected $table = 'receptionists';
+    protected $fillable = ['full_name', 'email', 'phone', 'role', 'password', 'photo']; // ✅ full_name
 
-    public function getTable()
+    // ✅ Cache automatiquement les mots de passe
+    protected $hidden = ['password'];
+
+    // ✅ Hash automatique du mot de passe
+    public function setPasswordAttribute($value)
     {
-        return 'receptionists';
+        $this->attributes['password'] = Hash::make($value);
+    }
+
+    // ✅ Accesseur pour l'URL complète de la photo
+    public function getPhotoUrlAttribute()
+    {
+        return $this->photo ? asset($this->photo) : 'https://via.placeholder.com/150';
     }
 }
